@@ -12,17 +12,21 @@ function DetailPage(props) {
 
     useEffect(() => {
 
-        Axios.get(`/api/product/getproduct?id=${productId}&type=single`)
+        var body={
+            id : productId,
+            type:"single"
+        }
+
+
+        Axios.post('/api/product/getProduct' ,body)
         .then(response=>{
-            if(response.data.success){
-                console.log(response.data.doc[0])
-                setProducts(response.data.doc[0])
-            }else{
-                alert('상품을 가져오는데 실패하였습니다.')
-            }
+                console.log(response.data[0])
+                setProducts(response.data[0])
         })
-        
+        .catch(err => alert(err))
+
     }, [])
+
 
     return (
         <div style={{ width:"100%", padding:"3rem 4rem"}}>

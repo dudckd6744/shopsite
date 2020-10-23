@@ -34,11 +34,14 @@ function RightMenu(props) {
   } else {
     return (
       <Menu mode={props.mode}>
+        <Menu.Item key="history">
+          <a href="/user/history">History</a>
+        </Menu.Item>
         <Menu.Item key="upload">
           <a href="/upload">Upload</a>
         </Menu.Item>
         <Menu.Item key="cart">
-          <Badge count={user.userData && user.userData.cart.length} style={{ marginRight:21}}>
+        <Badge count={user.userData && user.userData.cart &&user.userData.cart.length} style={{ marginRight:21}}>
             <a href="/user/cart" style={{ color:"moccasin"}}>
               <Icon type="shopping-cart" style={{fontSize:"2rem", marginBottom:"-20px"}}></Icon>
             </a>

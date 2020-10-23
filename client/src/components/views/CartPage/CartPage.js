@@ -1,9 +1,95 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { getCartItmes, removeCartItem, onSuccessBy} from '../../../_actions/user_actions'
+import UserCardBlock from './Sections/UserCard'
+import { Empty,Result } from 'antd';
+import Paypal from ".././utils/Paypal";
 
-function CartPage() {
+function CartPage(props) {
+    const dispatch = useDispatch()
+
+    const [Total, setTotal] = useState(0)
+    const [ShowTotal, setShowTotal] = useState(false)
+    const [ShowSuccess, setShowSuccess] = useState(false)
+
+    useEffect(() => {
+
+        var cartItems= []
+
+        if(props.user.userData && props.user.userData.cart){
+            if(props.user.userData.cart.length > 0){
+                props.user.userData.cart.forEach(item=>{
+                    cartItems.push(item.id)
+                })
+                dispatch(getCartItmes(cartItems,props.user.userData.cart ))
+                .then(response=> calculateTotal(response.payload))
+            }
+        }
+        
+    }, [props.user.userData])
+
+    var calculateTotal = (cart)=>{
+        var total = 0;
+        cart.map(item => {
+            total+= parseInt(item.price, 10) * item.quantity
+        })
+        setTotal(total)
+        setShowTotal(true)
+    }
+
+    const removeFromCart =(productId)=>{
+        dispatch(removeCartItem(productId))
+        .then(response => {
+            if(response.payload.productInfo.length <= 0){
+                setShowTotal(false)
+            }
+        })
+    }
+
+    const transactionSuccess =(data)=>{
+
+        dispatch(onSuccessBy({
+            paymentData:data,
+            cartDetail: props.user.cartDetail
+        }))
+        .then(response=>{
+            if(response.payload.success){
+                setShowTotal(false)
+                setShowSuccess(true)
+            }
+        })
+
+        
+    }
+
     return (
-        <div>
-            yuri
+        <div style={{ width:"85%", margin:"3rem auto"}}>
+            <h1>My Cart</h1>
+                <div>
+                <UserCardBlock products={props.user.cartDetail} removeCart={removeFromCart}/>
+                </div>
+
+                {ShowTotal ? 
+                <div style={{ marginTop:"3rem"}}>
+                    <h2>Total Amount: ${Total}</h2>
+                </div>
+                :
+                ShowSuccess ?
+                <Result 
+                status="success"
+                title="SuccessFully Purchased Items"
+                />
+                :
+                <>
+                <br />
+                <Empty description={false}/>
+                </>
+                }
+                <br />
+                {ShowTotal && 
+                <Paypal Total={Total} onSuccess={transactionSuccess}/>
+                }
+                
         </div>
     )
 }

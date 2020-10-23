@@ -1,0 +1,19 @@
+table {
+    border-radius: 20px;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td,th {
+    border-radius: 10px;
+    font-size: 1rem;
+    font-style: inherit;
+    border: 2px solid wheat;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: beige;
+  }
