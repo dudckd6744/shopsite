@@ -44,7 +44,7 @@ router.post('/products',(req,res)=>{
     var skip = req.body.skip ? parseInt(req.body.skip) :0;
     var limit = req.body.limit ? parseInt(req.body.limit): 100;
 
-    var term = req.body.search
+    var term = req.body.searchTerm
     var findArgs = {};
 
     for(var key in req.body.filters){
@@ -61,11 +61,11 @@ router.post('/products',(req,res)=>{
 
         }
     }
-    // console.log("find", findArgs)
-
+    console.log("find", term)
+    console.log("finds", findArgs)
     if(term){
         Product.find(findArgs)
-        .find({ $text: {$search: term}})
+        .find({ "title": {$regex: term}})
     .populate("writer")
     .skip(skip)
     .limit(limit)

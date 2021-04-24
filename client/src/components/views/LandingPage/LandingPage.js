@@ -119,9 +119,10 @@ function LandingPage() {
             filters:Filters,
             searchTerm: newSearch
         }
-        getProducts(body)
         setSkip(0)
         setSearchTerm(newSearch)
+        getProducts(body)
+
         console.log(newSearch)
 
     }

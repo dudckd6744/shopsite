@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {Input, Form, Typography, message} from 'antd';
+import {Input, Form, Typography, message, Button} from 'antd';
 import FileUpload from "../utils/FileUpload"
 import Axios from 'axios';
 
@@ -97,10 +97,10 @@ function UploadProductPage(props) {
                 </select>
                 <br />
                 <br />
-                <button style={{backgroundColor:"skyblue",fontSize:"1rem", 
-                fontStyle:"italic",color:"teal"}} type="submit" >
+                <Button type="primary" onClick={onSubmitHandle}
+                style={{fontSize:"1rem", fontStyle:"italic"}} >
                     확인
-                </button>
+                </Button>
             </Form>
         </div>
     )
