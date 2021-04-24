@@ -8,7 +8,7 @@ function ImageSilder(props) {
                 {props.images.map((item, i)=> (
                     <div key={i}>
                         <img style={{width:"100%", maxHeight:"150px"}}
-                        src={`http://localhost:5000/${item}`}/>
+                        src={`http://54.180.113.32:5000/${item}`}/>
                     </div>
                 ))}
             </Carousel>
