@@ -12,7 +12,7 @@ const {User} = require('../models/User');
 
 var storage = multer.diskStorage({
     destination: function(req,file,cb){
-        cb(null, 'uploads/')
+        cb(null, '/home/ubuntu/showsite/uploads/')
     },
     filename: function(req,file,cb){
         cb(null, `${Date.now()}_${file.originalname}`)

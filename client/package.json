@@ -5,6 +5,7 @@
   "dependencies": {
     "antd": "^3.26.18",
     "axios": "^0.19.2",
+    "caniuse-lite": "^1.0.30001214",
     "core-js": "^3.6.4",
     "formik": "^1.5.8",
     "moment": "^2.24.0",
