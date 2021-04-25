@@ -11,9 +11,7 @@ const {User} = require('../models/User');
 //=================================
 //             Product
 //=================================
-const s3 = new aws.S3({
-    accessKeyId: "AKIA4HIE7Q3SRWQM2IIG",   // user 만들면서 지급받은 키값
-    secretAccessKey: "kREjsLKyIcJ/jVJX+FNgxGprbuEUI4ajUfyGDbfu",
+const s3 = new aws.S3({,
     region: 'ap-northeast-2'
 })
 
