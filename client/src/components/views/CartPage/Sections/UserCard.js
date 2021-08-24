@@ -7,7 +7,7 @@ function UserCard(props) {
     const renderImages=(images)=>{
         if(images.length>0){
             var image= images[0]
-            return `http://54.180.113.32/${image}`
+            return `${image}`
         }
     }
 

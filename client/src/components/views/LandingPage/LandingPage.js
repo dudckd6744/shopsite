@@ -18,6 +18,7 @@ function LandingPage() {
         productlists:[],
         price: []
     })
+    console.log(PostSize)
     const [SearchTerm, setSearchTerm] = useState("")
 
     useEffect(() => {
@@ -40,7 +41,7 @@ function LandingPage() {
                 }else{
                     setproducts(response.data.product)
                 }
-                setPostSize(response.data.PostSize)
+                setPostSize(response.data.postSize)
             }else{
                 alert("상품들을 가져오는데 실패하였습니다!!")
             }

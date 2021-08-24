@@ -78,15 +78,15 @@ function UploadProductPage(props) {
 
                 <br />
                 <br />
-                <label style={{color:"whitesmoke"}}>이름</label>
+                <label style={{color:"black"}}>이름</label>
                 <Input value={ProductName} onChange={onTitle} />
                 <br />
                 <br />
-                <label style={{color:"whitesmoke"}}>설명</label>
+                <label style={{color:"black"}}>설명</label>
                 <TextArea value={Desc} onChange={onDesc} />
                 <br />
                 <br />
-                <label style={{color:"whitesmoke"}}>가격</label>
+                <label style={{color:"black"}}>가격</label>
                 <Input type="number" value={Price} onChange={onPrice} />
                 <br />
                 <br />

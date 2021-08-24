@@ -1,6 +1,6 @@
 const express = require('express');
 const multerS3 = require("multer-s3");
-const aws = require('aws-sdk');
+const s3 = require('../config/s3');
 const router = express.Router();
 const multer = require('multer');
 const { Product } = require("../models/Product");
@@ -11,10 +11,6 @@ const {User} = require('../models/User');
 //=================================
 //             Product
 //=================================
-const s3 = new aws.S3({,
-    region: 'ap-northeast-2'
-})
-
 // var storage = multer.diskStorage({
 //     destination: function(req,file,cb){
 //         cb(null, '/home/ubuntu/showsite/uploads/')
@@ -25,10 +21,11 @@ const s3 = new aws.S3({,
 // })
 const storage = multerS3({
     s3: s3,
-    bucket: 'elasticbeanstalk-ap-northeast-2-840213432037', // s3 생성시 버킷명
+    bucket: 'wooyc', // s3 생성시 버킷명
     acl: 'public-read',   // 업로드 된 데이터를 URL로 읽을 때 설정하는 값입니다. 업로드만 한다면 필요없습니다.
+    contentType: multerS3.AUTO_CONTENT_TYPE,
     metadata: function (req, file, cb) {
-      cb(null, {fieldName: file.fieldname}); // 파일 메타정보를 저장합니다.
+      cb(null, { fieldName: file.fieldname });
     },
     key: function (req, file, cb) {
       cb(null, `${Date.now()}_${file.originalname}`) // key... 저장될 파일명과 같이 해봅니다.
@@ -39,10 +36,11 @@ const storage = multerS3({
 var upload = multer({ storage:storage}).single("file")
 
 router.post("/image", (req, res) => {
+    console.log(req)
 
     upload(req,res,err => {
         if(err) {return res.json({ success: false, err})}
-        return res.json({ success:true, filePath:res.req.file.path, fileName:res.req.file.filename})
+        return res.json({ success:true, filePath:res.req.file.location, fileName:res.req.file.filename})
     });
 });
 
@@ -83,23 +81,25 @@ router.post('/products',(req,res)=>{
     if(term){
         Product.find(findArgs)
         .find({ "title": {$regex: term}})
-    .populate("writer")
-    .skip(skip)
-    .limit(limit)
-    .exec((err, product)=>{
-        if(err) return res.status(400).json({success:false, err})
-        return res.status(200).json({success:true, product, postSize:product.length})
-    })
+        .populate("writer")
+        .skip(skip)
+        .limit(limit)
+        .sort({createdAt:-1})
+        .exec((err, product)=>{
+            if(err) return res.status(400).json({success:false, err})
+            return res.status(200).json({success:true, product, postSize:product.length})
+        })
     }else{
-    Product.find(findArgs)
-    .populate("writer")
-    .skip(skip)
-    .limit(limit)
-    .exec((err, product)=>{
-        if(err) return res.status(400).json({success:false, err})
-        return res.status(200).json({success:true, product, postSize:product.length})
-    })
-}
+        Product.find(findArgs)
+        .populate("writer")
+        .skip(skip)
+        .limit(limit)
+        .sort({createdAt:-1})
+        .exec((err, product)=>{
+            if(err) return res.status(400).json({success:false, err})
+            return res.status(200).json({success:true, product, postSize:product.length})
+        })
+    }
 
 })
 
